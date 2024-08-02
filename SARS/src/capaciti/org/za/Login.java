@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
+import java.util.regex.Pattern;
 
 public class Login extends JFrame implements SARS_INTERFACE {
     private JTextField emailField;
@@ -163,59 +164,23 @@ public class Login extends JFrame implements SARS_INTERFACE {
         JTextField addressField = new JTextField(20);
         personalDetailsPanel.add(addressField);
 
-        // Income Details Section
-        JPanel incomeDetailsPanel = new JPanel(new GridLayout(3, 2, 5, 5));
-        incomeDetailsPanel.setBorder(BorderFactory.createTitledBorder("Income Details"));
-        incomeDetailsPanel.add(new JLabel("Annual Income:"));
-        JTextField annualIncomeField = new JTextField(20);
-        incomeDetailsPanel.add(annualIncomeField);
-        incomeDetailsPanel.add(new JLabel("Other Income:"));
-        JTextField otherIncomeField = new JTextField(20);
-        incomeDetailsPanel.add(otherIncomeField);
-        incomeDetailsPanel.add(new JLabel("Total Income:"));
-        JTextField totalIncomeField = new JTextField(20);
-        incomeDetailsPanel.add(totalIncomeField);
-
-        // Deductions Section
-        JPanel deductionsPanel = new JPanel(new GridLayout(3, 2, 5, 5));
-        deductionsPanel.setBorder(BorderFactory.createTitledBorder("Deductions"));
-        deductionsPanel.add(new JLabel("Medical Aid:"));
-        JTextField medicalAidField = new JTextField(20);
-        deductionsPanel.add(medicalAidField);
-        deductionsPanel.add(new JLabel("Retirement Fund:"));
-        JTextField retirementFundField = new JTextField(20);
-        deductionsPanel.add(retirementFundField);
-        deductionsPanel.add(new JLabel("Other Deductions:"));
-        JTextField otherDeductionsField = new JTextField(20);
-        deductionsPanel.add(otherDeductionsField);
-
-        // Tax Calculation Section
-        JPanel taxCalculationPanel = new JPanel(new GridLayout(2, 2, 5, 5));
-        taxCalculationPanel.setBorder(BorderFactory.createTitledBorder("Tax Calculation"));
-        taxCalculationPanel.add(new JLabel("Taxable Income:"));
-        JTextField taxableIncomeField = new JTextField(20);
-        taxCalculationPanel.add(taxableIncomeField);
-        taxCalculationPanel.add(new JLabel("Tax Due:"));
-        JTextField taxDueField = new JTextField(20);
-        taxCalculationPanel.add(taxDueField);
-
-        // Payment Heading
-        JLabel paymentHeading = new JLabel("TAX PAYMENT");
-        paymentHeading.setFont(new Font("Arial", Font.BOLD, 18));
-        paymentHeading.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         // Payment Section
         JPanel paymentPanel = new JPanel(new GridLayout(3, 2, 5, 5));
         paymentPanel.setBorder(BorderFactory.createTitledBorder("Payment"));
         paymentPanel.add(new JLabel("Bank Name:"));
-        JTextField bankNameField = new JTextField(20);
-        paymentPanel.add(bankNameField);
+        JComboBox<String> bankComboBox = new JComboBox<>(new String[]{"Capitec", "ABSA", "Standard Bank", "Nedbank", "FNB", "Tyme Bank"});
+        paymentPanel.add(bankComboBox);
         paymentPanel.add(new JLabel("Account Number:"));
         JTextField accountNumberField = new JTextField(20);
         paymentPanel.add(accountNumberField);
         paymentPanel.add(new JLabel("Payment Amount:"));
         JTextField paymentAmountField = new JTextField(20);
         paymentPanel.add(paymentAmountField);
+
+        // Validation Label
+        JLabel validationLabel = new JLabel("");
+        validationLabel.setForeground(Color.RED);
+        validationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Buttons
         JPanel buttonPanel = new JPanel();
@@ -237,27 +202,44 @@ public class Login extends JFrame implements SARS_INTERFACE {
         payButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (fullNameField.getText().isEmpty() || idNumberField.getText().isEmpty() || emailField.getText().isEmpty() ||
-                    phoneNumberField.getText().isEmpty() || addressField.getText().isEmpty() || bankNameField.getText().isEmpty() ||
-                    accountNumberField.getText().isEmpty() || paymentAmountField.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "All fields must be filled out.", "Payment Error", JOptionPane.ERROR_MESSAGE);
+                if (fullNameField.getText().isEmpty() || !isValidID(idNumberField.getText()) || !isValidEmail(emailField.getText()) ||
+                    !isValidPhoneNumber(phoneNumberField.getText()) || addressField.getText().isEmpty() ||
+                    bankComboBox.getSelectedItem() == null || accountNumberField.getText().isEmpty() ||
+                    !isValidPaymentAmount(paymentAmountField.getText())) {
+                    validationLabel.setText("All fields must be filled out and valid.");
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Payment received!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    validationLabel.setText("Payment received!");
                 }
             }
         });
 
         // Add panels to main panel
-        panel.add(paymentHeading);
+        panel.add(new JLabel("TAX PAYMENT", JLabel.CENTER));
         panel.add(personalDetailsPanel);
-        //panel.add(incomeDetailsPanel);
-        //panel.add(deductionsPanel);
-        //panel.add(taxCalculationPanel);
         panel.add(paymentPanel);
         panel.add(buttonPanel);
+        panel.add(validationLabel);
 
         // Add main panel to frame
         frame.add(new JScrollPane(panel));
         frame.setVisible(true);
+    }
+
+    // Validation methods
+    private static boolean isValidID(String id) {
+        return id.matches("\\d{13}");
+    }
+
+    private static boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return Pattern.compile(emailRegex).matcher(email).matches();
+    }
+
+    private static boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.matches("\\d{10}");
+    }
+
+    private static boolean isValidPaymentAmount(String paymentAmount) {
+        return paymentAmount.matches("\\d+(\\.\\d{1,2})?");
     }
 }
