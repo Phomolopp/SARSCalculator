@@ -24,18 +24,15 @@ This is a Java Swing-based application designed to help users calculate their ta
     Login: Click "Login" to log into the system.
 
     ![1](https://github.com/user-attachments/assets/4946ad72-6b51-4f0d-8718-514639fee189)
-
-
-
-
-    <img src="github.com/user-attachments/assets/00d4c33c-3c61-4c84-9053-26c3f3643765" >
-
-    <img src="https://github.com/user-attachments/assets/d663907f-1847-4cd5-bc2a-c74e9a988e39 >
-
-    <img src="https://github.com/user-attachments/assets/deef2cfe-4eeb-47db-aea3-c2bd466998dd" >
-    <img src="https://github.com/user-attachments/assets/2c70c375-6f81-4578-afd8-6fd87e5fd0a3" >
 # Contributing
 Feel free to fork this repository and submit pull requests.
 
 # License
 This project is licensed under the MIT License.
+# Output
+  <img src="github.com/user-attachments/assets/00d4c33c-3c61-4c84-9053-26c3f3643765" >
+
+  <img src="https://github.com/user-attachments/assets/d663907f-1847-4cd5-bc2a-c74e9a988e39 >
+
+  <img src="https://github.com/user-attachments/assets/deef2cfe-4eeb-47db-aea3-c2bd466998dd" >
+  <img src="https://github.com/user-attachments/assets/2c70c375-6f81-4578-afd8-6fd87e5fd0a3" >
