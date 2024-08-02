@@ -108,6 +108,7 @@ public class Login extends JFrame implements SARS_INTERFACE {
             if (isValidLogin(email, password)) {
                 JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
+                payment();
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Login Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -116,7 +117,7 @@ public class Login extends JFrame implements SARS_INTERFACE {
 
     private boolean isValidLogin(String email, String password) {
         String query = "SELECT * FROM SARS_DATABASE WHERE EMAIL = ? AND PASSWORD = ?";
-        try (Connection con = DriverManager.getConnection(URL,userName, dbpassword);
+        try (Connection con = DriverManager.getConnection(URL, userName, dbpassword);
              PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, email);
             ps.setString(2, password);
@@ -132,5 +133,131 @@ public class Login extends JFrame implements SARS_INTERFACE {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Login::new);
+    }
+
+    public static void payment() {
+        JFrame frame = new JFrame("SARS Tax Payment System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 600);
+
+        // Create a panel to hold all components
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Personal Details Section
+        JPanel personalDetailsPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+        personalDetailsPanel.setBorder(BorderFactory.createTitledBorder("Personal Details"));
+        personalDetailsPanel.add(new JLabel("Full Name:"));
+        JTextField fullNameField = new JTextField(20);
+        personalDetailsPanel.add(fullNameField);
+        personalDetailsPanel.add(new JLabel("ID Number:"));
+        JTextField idNumberField = new JTextField(20);
+        personalDetailsPanel.add(idNumberField);
+        personalDetailsPanel.add(new JLabel("Email:"));
+        JTextField emailField = new JTextField(20);
+        personalDetailsPanel.add(emailField);
+        personalDetailsPanel.add(new JLabel("Phone Number:"));
+        JTextField phoneNumberField = new JTextField(20);
+        personalDetailsPanel.add(phoneNumberField);
+        personalDetailsPanel.add(new JLabel("Address:"));
+        JTextField addressField = new JTextField(20);
+        personalDetailsPanel.add(addressField);
+
+        // Income Details Section
+        JPanel incomeDetailsPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+        incomeDetailsPanel.setBorder(BorderFactory.createTitledBorder("Income Details"));
+        incomeDetailsPanel.add(new JLabel("Annual Income:"));
+        JTextField annualIncomeField = new JTextField(20);
+        incomeDetailsPanel.add(annualIncomeField);
+        incomeDetailsPanel.add(new JLabel("Other Income:"));
+        JTextField otherIncomeField = new JTextField(20);
+        incomeDetailsPanel.add(otherIncomeField);
+        incomeDetailsPanel.add(new JLabel("Total Income:"));
+        JTextField totalIncomeField = new JTextField(20);
+        incomeDetailsPanel.add(totalIncomeField);
+
+        // Deductions Section
+        JPanel deductionsPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+        deductionsPanel.setBorder(BorderFactory.createTitledBorder("Deductions"));
+        deductionsPanel.add(new JLabel("Medical Aid:"));
+        JTextField medicalAidField = new JTextField(20);
+        deductionsPanel.add(medicalAidField);
+        deductionsPanel.add(new JLabel("Retirement Fund:"));
+        JTextField retirementFundField = new JTextField(20);
+        deductionsPanel.add(retirementFundField);
+        deductionsPanel.add(new JLabel("Other Deductions:"));
+        JTextField otherDeductionsField = new JTextField(20);
+        deductionsPanel.add(otherDeductionsField);
+
+        // Tax Calculation Section
+        JPanel taxCalculationPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        taxCalculationPanel.setBorder(BorderFactory.createTitledBorder("Tax Calculation"));
+        taxCalculationPanel.add(new JLabel("Taxable Income:"));
+        JTextField taxableIncomeField = new JTextField(20);
+        taxCalculationPanel.add(taxableIncomeField);
+        taxCalculationPanel.add(new JLabel("Tax Due:"));
+        JTextField taxDueField = new JTextField(20);
+        taxCalculationPanel.add(taxDueField);
+
+        // Payment Heading
+        JLabel paymentHeading = new JLabel("TAX PAYMENT");
+        paymentHeading.setFont(new Font("Arial", Font.BOLD, 18));
+        paymentHeading.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Payment Section
+        JPanel paymentPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+        paymentPanel.setBorder(BorderFactory.createTitledBorder("Payment"));
+        paymentPanel.add(new JLabel("Bank Name:"));
+        JTextField bankNameField = new JTextField(20);
+        paymentPanel.add(bankNameField);
+        paymentPanel.add(new JLabel("Account Number:"));
+        JTextField accountNumberField = new JTextField(20);
+        paymentPanel.add(accountNumberField);
+        paymentPanel.add(new JLabel("Payment Amount:"));
+        JTextField paymentAmountField = new JTextField(20);
+        paymentPanel.add(paymentAmountField);
+
+        // Buttons
+        JPanel buttonPanel = new JPanel();
+        JButton calculateButton = new JButton("Calculate Tax");
+        JButton payButton = new JButton("Pay Tax");
+        buttonPanel.add(calculateButton);
+        buttonPanel.add(payButton);
+
+        // Calculate Tax button action listener
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose(); // Close the current GUI
+                new TaxCalculator(); // Open TaxCalculator GUI
+            }
+        });
+
+        // Pay Tax button action listener
+        payButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (fullNameField.getText().isEmpty() || idNumberField.getText().isEmpty() || emailField.getText().isEmpty() ||
+                    phoneNumberField.getText().isEmpty() || addressField.getText().isEmpty() || bankNameField.getText().isEmpty() ||
+                    accountNumberField.getText().isEmpty() || paymentAmountField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "All fields must be filled out.", "Payment Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Payment received!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
+        // Add panels to main panel
+        panel.add(paymentHeading);
+        panel.add(personalDetailsPanel);
+        //panel.add(incomeDetailsPanel);
+        //panel.add(deductionsPanel);
+        //panel.add(taxCalculationPanel);
+        panel.add(paymentPanel);
+        panel.add(buttonPanel);
+
+        // Add main panel to frame
+        frame.add(new JScrollPane(panel));
+        frame.setVisible(true);
     }
 }
