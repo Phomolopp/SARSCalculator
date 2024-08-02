@@ -30,8 +30,10 @@ Feel free to fork this repository and submit pull requests.
 # License
 This project is licensed under the MIT License.
 # Output
+# Ragistration
 <img src="https://github.com/user-attachments/assets/2c70c375-6f81-4578-afd8-6fd87e5fd0a3" >
 
+# Login
 <img src="https://github.com/user-attachments/assets/00d4c33c-3c61-4c84-9053-26c3f3643765" >
 
 
