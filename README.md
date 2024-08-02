@@ -23,7 +23,7 @@ This is a Java Swing-based application designed to help users calculate their ta
     Register: Click "Register" to create a new user account.
     Login: Click "Login" to log into the system.
 
-    <img src="https://github.com/user-attachments/assets/00d4c33c-3c61-4c84-9053-26c3f3643765" >
+    <img src="github.com/user-attachments/assets/00d4c33c-3c61-4c84-9053-26c3f3643765" >
 
     <img src="https://github.com/user-attachments/assets/d663907f-1847-4cd5-bc2a-c74e9a988e39 >
 
