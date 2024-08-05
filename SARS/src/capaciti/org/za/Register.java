@@ -13,7 +13,7 @@ public class Register extends JFrame {
     public Register() {
         // Set up the frame
         setTitle("User Registration");
-        setSize(400, 600);
+        setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
