@@ -20,7 +20,7 @@ public class Login extends JFrame implements SARS_INTERFACE {
     public Login() {
         // Set up the frame
         setTitle("User Login");
-        setSize(400, 300);
+        setSize(450, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
